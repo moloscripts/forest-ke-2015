@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>forest-cover-ke-2015</title>
+    <meta charset="utf-8">
+    <meta name="author" content="molo">
+    <meta name="description" content="2015 Estimated Forest Cover for Counties in Kenya.">
+    <meta name="keywords" content="HTML,CSS,JavaScript, Kenya Open Data, Kenya Open Data API,
+    Socrata Open Data API, SODA API, AgroForestry, Natural Resources, Agriculture, Kenya, Africa">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+
+    <style media="screen">
+    #forest-map{ width: 100%; height: 300px; margin-top: 20px; }
+    #chartOne, #chartTwo {height: 400px;}
+    em {color: #DC143C;}
+    h6{margin-top: 5px;}
+    h6 a:link {color: #006D2C; }
+    h6 a:visited {color: #B0171F;}
+    h6 a:hover {color: #141F2E;}
+    </style>
+  </head>
+  <body>
+    <script src='http://code.highcharts.com/highcharts.js'></script>
+    <script src='http://code.highcharts.com/modules/data.js'></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12" id="forest-map"></div>
+      </div>
+      <hr>
+      <div class="row" id="chart-row">
+        <div class="col-md-6" id="chartOne"></div>
+        <div class="col-md-6" id="chartTwo"></div>
+        &nbsp;
+        <h6 align="center"><em>nb:</em> click on the legend items: <em>Total area (ha)</em> or <em>Forest area (ha)</em> to initialte toggle &#9786;.</h6><hr>
+        <h6 align="center">
+          <a href="https://www.opendata.go.ke/d/gnxa-6ww5" target="_blank" id="footlinks">data source</a> &#9899;
+          <a href="https://1025.carto.com/viz/a90efe18-508f-11e6-be56-0e3ff518bd15/embed_map" target="_blank">embedded map</a>  &#9899;
+          <a href="https://twitter.com/molo1025/" target="_blank">twitter</a>  &#9899;
+          <a href="mailto:molo.andrew@gmail.com?Subject=Hey.." target="_blank">email</a>  &#9899;
+          <a href="https://github.com/moloafrica" target="_blank">github</a>
+        </h6>
+      </div>
+    </div>
+  </body>
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+  //global config
+  var layerUrl = 'https://1025.carto.com/api/v2/viz/a90efe18-508f-11e6-be56-0e3ff518bd15/viz.json';
+  var dataDomain = 'www.opendata.go.ke'
+  var datasetId = 'gnxa-6ww5'
+
+  var queryStringOne = [
+    '$select=name_of_county,forest_area_ha,total_area_ha',
+    '$group=name_of_county,total_area_ha,forest_area_ha',
+    '$order=forest_area_ha+ASC',
+    '$limit=5'
+  ].join('&')
+
+  var queryStringTwo = [
+    '$select=name_of_county,forest_area_ha,total_area_ha',
+    '$group=name_of_county,total_area_ha,forest_area_ha',
+    '$order=forest_area_ha+DESC',
+    '$limit=5'
+  ].join('&')
+
+  var firstChartTitle = 'Top 5 Counties with the Lowest Forest Coverage'
+  var secondChartTitle = 'Top 5 Counties with the Highest Forest Coverage'
+
+  function main () {
+    cartodb.createVis('forest-map',layerUrl, {
+      title: false, description: true,
+      search: false, tiles_loader: true, zoom: 5,
+      center_lat: 0.051370, center_lon: 37.645683
+      })
+      .done(function(viz, layers){
+        //do stuff
+      })
+      .error(function(err){
+        console.log(err);
+      });
+  } //end of main ()
+
+
+  function firstChart (){
+    Highcharts.setOptions({
+    colors: ['#006D2C', '#141F2E']
+    });
+    $(document).ready(function () {
+      $.get('https://'+dataDomain+'/resource/'+datasetId+'.csv?'+queryStringOne, function (csv){
+        console.log("csv output", csv);
+        $("#chartOne").highcharts({
+          chart : {
+            type : 'bar'
+          },
+          data : {
+            csv : csv,
+          },
+          title : {
+            text : firstChartTitle
+          },
+        });
+      });
+    });
+
+  }// end of firstChart ()
+
+
+  function secondChart (){
+    $(document).ready(function () {
+      $.get('https://'+dataDomain+'/resource/'+datasetId+'.csv?'+queryStringTwo, function (csv){
+        console.log("csv output", csv);
+        $("#chartTwo").highcharts({
+          chart : {
+            type : 'column'
+          },
+          data : {
+            csv : csv,
+          },
+          title : {
+            text : secondChartTitle
+          },
+        });
+      });
+    });
+
+  }// end of secondChart ()
+
+   //call the functions
+   main();
+   firstChart();
+   secondChart();
+  </script>
+</html>
