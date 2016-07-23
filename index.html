@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>forest-cover-ke-2015</title>
     <meta charset="utf-8">
     <meta name="author" content="molo">
     <meta name="description" content="2015 Estimated Forest Cover for Counties in Kenya.">
-    <meta name="keywords" content="HTML,CSS,JavaScript, Kenya Open Data, Kenya Open Data API, Socrata Open Data API, SODA API">
+    <meta name="keywords" content="HTML,CSS,JavaScript, Kenya Open Data, Kenya Open Data API,
+    Socrata Open Data API, SODA API, AgroForestry, Natural Resources, Agriculture, Kenya, Africa">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
 
@@ -18,12 +18,16 @@
     #chartOne, #chartTwo {height: 400px;}
     em {color: #DC143C;}
     h6{margin-top: 5px;}
+    h6 a:link {color: #006D2C; }
+    h6 a:visited {color: #B0171F;}
+    h6 a:hover {color: #141F2E;}
     </style>
-
   </head>
   <body>
     <script src='http://code.highcharts.com/highcharts.js'></script>
     <script src='http://code.highcharts.com/modules/data.js'></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
     <div class="container">
       <div class="row">
         <div class="col-md-12" id="forest-map"></div>
@@ -32,6 +36,14 @@
         <div class="col-md-6" id="chartOne"></div>
         <div class="col-md-6" id="chartTwo"></div>
         &nbsp;
+        <h6 align="center"><em>nb:</em> click on the legend items: <em>Total area (ha)</em> or <em>Forest area (ha)</em> to initialte toggle &#9786;.</h6><hr>
+        <h6 align="center">
+          <a href="https://www.opendata.go.ke/d/gnxa-6ww5" target="_blank" id="footlinks">data source</a> &#9899;
+          <a href="https://1025.carto.com/viz/a90efe18-508f-11e6-be56-0e3ff518bd15/embed_map" target="_blank">embedded map</a> &#9899;
+          <a href="https://twitter.com/molo1025/" target="_blank">twitter</a> &#9899;
+          <a href="mailto:molo.andrew@gmail.com?Subject=Hey.." target="_blank">email</a> &#9899;
+          <a href="https://github.com/moloafrica" target="_blank">github</a>
+        </h6>
       </div>
     </div>
   </body>
@@ -58,16 +70,8 @@
     '$limit=5'
   ].join('&')
 
-  /**var dataQueryString1 = [
-  '$select=drg_definition,avg(average_covered_charges),avg(average_medicare_payments),avg(average_total_payments)',
-  '$group=drg_definition',
-  '$order=avg_average_medicare_payments+desc',
-  '$limit=5'
-  ].join('&') **/
-
   var firstChartTitle = 'Top 5 Counties with the Lowest Forest Coverage'
   var secondChartTitle = 'Top 5 Counties with the Highest Forest Coverage'
-
 
   function main () {
     cartodb.createVis('forest-map',layerUrl, {
@@ -83,8 +87,11 @@
       });
   } //end of main ()
 
-  //firstChart
+
   function firstChart (){
+    Highcharts.setOptions({
+    colors: ['#006D2C', '#141F2E']
+    });
     $(document).ready(function () {
       $.get('https://'+dataDomain+'/resource/'+datasetId+'.csv?'+queryStringOne, function (csv){
         console.log("csv output", csv);
@@ -98,16 +105,13 @@
           title : {
             text : firstChartTitle
           },
-          subtitle : {
-            text : 'Source: https://'+dataDomain+'/d/gnxa-6ww5'
-          }
         });
       });
     });
 
   }// end of firstChart ()
 
-  //secondChart
+
   function secondChart (){
     $(document).ready(function () {
       $.get('https://'+dataDomain+'/resource/'+datasetId+'.csv?'+queryStringTwo, function (csv){
@@ -122,9 +126,6 @@
           title : {
             text : secondChartTitle
           },
-          subtitle : {
-            text : 'Source: https://'+dataDomain+'/d/gnxa-6ww5'
-          }
         });
       });
     });
