@@ -1,0 +1,9 @@
+#forest-map{
+  width: 100%; height: 300px; margin-top: 20px;
+}
+
+#chart-row { margin-top: 10px;}
+
+#chartOne, #chartTwo {
+ height: 400px;
+}

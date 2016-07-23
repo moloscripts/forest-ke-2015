@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>forest-cover-ke-2015</title>
+    <meta charset="utf-8">
+    <meta name="author" content="molo">
+    <meta name="description" content="2015 Estimated Forest Cover for Counties in Kenya.">
+    <meta name="keywords" content="HTML,CSS,JavaScript, Kenya Open Data, Kenya Open Data API, Socrata Open Data API, SODA API">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    
+  </head>
+  <body>
+    <script src='http://code.highcharts.com/highcharts.js'></script>
+    <script src='http://code.highcharts.com/modules/data.js'></script>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12" id="forest-map"></div>
+      </div>
+      <div class="row" id="chart-row">
+        <div class="col-md-6" id="chartOne"></div>
+        <div class="col-md-6" id="chartTwo"></div>
+      </div>
+    </div>
+  </body>
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+  function main () {
+    cartodb.createVis('forest-map', 'https://1025.carto.com/api/v2/viz/a90efe18-508f-11e6-be56-0e3ff518bd15/viz.json', {
+      title: false, description: true,
+      search: false, tiles_loader: true, zoom: 5,
+      center_lat: 0.051370, center_lon: 37.645683
+      })
+      .done(function(viz, layers){
+        //do stuff
+      })
+      .error(function(err){
+        console.log(err);
+      });
+  } //end of main ()
+
+   main();
+
+
+
+  </script>
+</html>
