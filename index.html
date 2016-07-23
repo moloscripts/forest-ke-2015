@@ -12,7 +12,14 @@
     <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-    
+
+    <style media="screen">
+    #forest-map{ width: 100%; height: 300px; margin-top: 20px; }
+    #chartOne, #chartTwo {height: 400px;}
+    em {color: #DC143C;}
+    h6{margin-top: 5px;}
+    </style>
+
   </head>
   <body>
     <script src='http://code.highcharts.com/highcharts.js'></script>
@@ -24,6 +31,7 @@
       <div class="row" id="chart-row">
         <div class="col-md-6" id="chartOne"></div>
         <div class="col-md-6" id="chartTwo"></div>
+        &nbsp;
       </div>
     </div>
   </body>
@@ -31,8 +39,38 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
   <script type="text/javascript">
+  //global config
+  var layerUrl = 'https://1025.carto.com/api/v2/viz/a90efe18-508f-11e6-be56-0e3ff518bd15/viz.json';
+  var dataDomain = 'www.opendata.go.ke'
+  var datasetId = 'gnxa-6ww5'
+
+  var queryStringOne = [
+    '$select=name_of_county,forest_area_ha,total_area_ha',
+    '$group=name_of_county,total_area_ha,forest_area_ha',
+    '$order=forest_area_ha+ASC',
+    '$limit=5'
+  ].join('&')
+
+  var queryStringTwo = [
+    '$select=name_of_county,forest_area_ha,total_area_ha',
+    '$group=name_of_county,total_area_ha,forest_area_ha',
+    '$order=forest_area_ha+DESC',
+    '$limit=5'
+  ].join('&')
+
+  /**var dataQueryString1 = [
+  '$select=drg_definition,avg(average_covered_charges),avg(average_medicare_payments),avg(average_total_payments)',
+  '$group=drg_definition',
+  '$order=avg_average_medicare_payments+desc',
+  '$limit=5'
+  ].join('&') **/
+
+  var firstChartTitle = 'Top 5 Counties with the Lowest Forest Coverage'
+  var secondChartTitle = 'Top 5 Counties with the Highest Forest Coverage'
+
+
   function main () {
-    cartodb.createVis('forest-map', 'https://1025.carto.com/api/v2/viz/a90efe18-508f-11e6-be56-0e3ff518bd15/viz.json', {
+    cartodb.createVis('forest-map',layerUrl, {
       title: false, description: true,
       search: false, tiles_loader: true, zoom: 5,
       center_lat: 0.051370, center_lon: 37.645683
@@ -45,9 +83,57 @@
       });
   } //end of main ()
 
+  //firstChart
+  function firstChart (){
+    $(document).ready(function () {
+      $.get('https://'+dataDomain+'/resource/'+datasetId+'.csv?'+queryStringOne, function (csv){
+        console.log("csv output", csv);
+        $("#chartOne").highcharts({
+          chart : {
+            type : 'bar'
+          },
+          data : {
+            csv : csv,
+          },
+          title : {
+            text : firstChartTitle
+          },
+          subtitle : {
+            text : 'Source: https://'+dataDomain+'/d/gnxa-6ww5'
+          }
+        });
+      });
+    });
+
+  }// end of firstChart ()
+
+  //secondChart
+  function secondChart (){
+    $(document).ready(function () {
+      $.get('https://'+dataDomain+'/resource/'+datasetId+'.csv?'+queryStringTwo, function (csv){
+        console.log("csv output", csv);
+        $("#chartTwo").highcharts({
+          chart : {
+            type : 'column'
+          },
+          data : {
+            csv : csv,
+          },
+          title : {
+            text : secondChartTitle
+          },
+          subtitle : {
+            text : 'Source: https://'+dataDomain+'/d/gnxa-6ww5'
+          }
+        });
+      });
+    });
+
+  }// end of secondChart ()
+
+   //call the functions
    main();
-
-
-
+   firstChart();
+   secondChart();
   </script>
 </html>
