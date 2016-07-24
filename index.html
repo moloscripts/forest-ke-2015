@@ -9,11 +9,12 @@
     <meta name="keywords" content="HTML,CSS,JavaScript, Kenya Open Data, Kenya Open Data API,
     Socrata Open Data API, SODA API, AgroForestry, Natural Resources, Agriculture, Kenya, Africa">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Noto+Sans' type='text/css'>
 
     <style media="screen">
+    body {font-family: 'Noto Sans', sans-serif;}
     #forest-map{ width: 100%; height: 300px; margin-top: 20px; }
     #chartOne, #chartTwo {height: 400px;}
     em {color: #DC143C;}
@@ -24,9 +25,10 @@
     </style>
   </head>
   <body>
-    <script src='http://code.highcharts.com/highcharts.js'></script>
-    <script src='http://code.highcharts.com/modules/data.js'></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src='https://code.highcharts.com/highcharts.js'></script>
+    <script src='https://code.highcharts.com/modules/data.js'></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
     <div class="container">
       <div class="row">
@@ -39,17 +41,18 @@
         &nbsp;
         <h6 align="center"><em>nb:</em> click on the legend items: <em>Total area (ha)</em> or <em>Forest area (ha)</em> to initialte toggle &#9786;.</h6><hr>
         <h6 align="center">
-          <a href="https://www.opendata.go.ke/d/gnxa-6ww5" target="_blank" id="footlinks">data source</a> &#9899;
-          <a href="https://1025.carto.com/viz/a90efe18-508f-11e6-be56-0e3ff518bd15/embed_map" target="_blank">embedded map</a>  &#9899;
-          <a href="https://twitter.com/molo1025/" target="_blank">twitter</a>  &#9899;
-          <a href="mailto:molo.andrew@gmail.com?Subject=Hey.." target="_blank">email</a>  &#9899;
+          <a href="https://www.opendata.go.ke/d/gnxa-6ww5" target="_blank" id="footlinks">data source</a> |
+          <a href="https://1025.carto.com/viz/a90efe18-508f-11e6-be56-0e3ff518bd15/embed_map" target="_blank">embedded map</a> |
+          <a href="https://twitter.com/molo1025/" target="_blank">twitter</a> |
+          <a href="mailto:molo.andrew@gmail.com?Subject=Hey.." target="_blank">email</a> |
           <a href="https://github.com/moloafrica" target="_blank">github</a>
         </h6>
       </div>
     </div>
   </body>
-  <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 
   <script type="text/javascript">
   //global config
